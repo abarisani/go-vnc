@@ -60,7 +60,9 @@ func (*RawEncoding) Read(c *ClientConn, rect *Rectangle, r io.Reader) (Encoding,
 				color.G = uint16((rawPixel >> c.PixelFormat.GreenShift) & uint32(c.PixelFormat.GreenMax))
 				color.B = uint16((rawPixel >> c.PixelFormat.BlueShift) & uint32(c.PixelFormat.BlueMax))
 			} else {
-				*color = c.ColorMap[rawPixel]
+				if int(rawPixel) < len(c.ColorMap) {
+					*color = c.ColorMap[rawPixel]
+				}
 			}
 		}
 	}
